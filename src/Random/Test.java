@@ -1,23 +1,35 @@
 package Random;
 
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-
 /**
- * Created by riyaz on 21/6/15.
+ * Created by riyaz on 4/7/15.
  */
-
 public class Test {
-    public static void main(String[] args) {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("Riyaz","ali");
-        map.put("Riyaz", "ali");
-        System.out.println(map.size());
 
-        IdentityHashMap<String, String> iMap = new IdentityHashMap<String, String>();
-        iMap.put("Riyaz","ali");
-        iMap.put("Riyaz","ali");
+    static void fun(int[] arr) {
+        if (arr[0] == 10)
+            return;
+        ++arr[0];
+        fun(arr);
+        System.out.println(arr[0]);
+    }
+    static class Points {
+        int i;
+        int j;
+
+        public Points(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+    }
+    public static void main(String[] args) {
+        Points [] p = new Points[4];
+        p[0] = new Points(3,4);
+        p[0] = new Points(4,5);
+        System.out.println(p.length);
+        for(Points m: p) {
+            if(m != null)
+                 System.out.println("(" + m.i + " , " +  m.j + ")");
+        }
 
     }
-
 }
