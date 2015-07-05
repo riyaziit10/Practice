@@ -4,12 +4,20 @@ package Array;
  * Created by riyaz on 29/6/15.
  */
 public class AnyNumbersSum {
-    static boolean isSum(int [] arr,int i, int sum) {
+    static boolean isSum(int [] arr,int i, int sum, int totalSum) {
         if(sum == 0)
             return true;
-        if(i < 0 || sum < 0 )
+        if(i < 0 || sum < 0 || totalSum < sum)
             return false;
-        return isSum(arr, i - 1, sum) || isSum(arr, i -1, sum - arr[i]);
+        if(isSum(arr, i - 1, sum,totalSum)) {
+            return true;
+        }
+        if(isSum(arr, i -1, sum - arr[i],totalSum)) {
+            if(arr[i] <= sum)
+                System.out.println(arr[i]);
+            return true;
+        }
+        return  false;
     }
 
     static boolean isSumV2(int [] arr, int sum) {
@@ -25,11 +33,11 @@ public class AnyNumbersSum {
         for(int i = 1; i <= sum; ++i){
             for(int j = 1; j <= arrLength; ++j) {
                     if( i == arr[j-1])
-                        tempTable[i][j] = 1;
+                        tempTable[i][j] = i;
                     else if( i < arr[j-1])
                         tempTable[i][j] = tempTable[i][j-1];
                     else
-                        tempTable[i][j] = tempTable[i][j-1] != 0 ? 1 :  tempTable[i - arr[j-1]][j-1];
+                        tempTable[i][j] = tempTable[i - arr[j-1]][j-1] == i - arr[j-1] ? i : tempTable[i][j-1];
             }
         }
         for(int i = 0; i <= sum; ++i) {
@@ -37,11 +45,18 @@ public class AnyNumbersSum {
                 System.out.print(" " + tempTable[i][j]);
             System.out.println();
         }
-        return tempTable[sum][arrLength] == 0 ? false :true;
+        if(tempTable[sum][arrLength] == sum)
+            return true;
+
+        return false;
     }
     public static void main(String[] args) {
-        int[] arr = {4,6,2,8};
-//        System.out.println(isSum(arr, arr.length - 1, 7));
-        System.out.println(isSumV2(arr,10));
+        int[] arr = {4,1,2,8};
+        int arrLength = arr.length;
+        int totalSum = 0;
+//        for(int i = 0; i < arrLength; ++i)
+//            totalSum += arr[i];                 // this will give the same performance as DP version
+//        System.out.println(isSum(arr, arr.length - 1, 9, totalSum));
+        System.out.println(isSumV2(arr, 6));
     }
 }

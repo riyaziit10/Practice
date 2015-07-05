@@ -72,8 +72,10 @@ public class TreeFormationDemo {
         }
     }
     public static void main(String[] args) {
-        char [] inorder = {'D', 'B', 'E', 'A', 'F' ,'C','G'};
-        char [] preOrder = {'A', 'B', 'D', 'E', 'C', 'F','G'};
+//        char [] inorder = {'D', 'B', 'E', 'A', 'F' ,'C','G'};
+        char [] inorder = {'4', '2', '5', '1','3'};
+//        char [] preOrder = {'A', 'B', 'D', 'E', 'C', 'F','G'};
+        char [] preOrder = {'1','2','4','5','3'};
         System.out.println("Inorder traversal [D, B, E, A, F, C, G]");
         System.out.println("PreOrder traversal [A, B, D, E, C, F, G] "  );
         preOrder(new TreeFormationDemo().tree(inorder, 0, inorder.length - 1, preOrder, preOrder.length - 1));

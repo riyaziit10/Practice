@@ -11,6 +11,8 @@ public class QueueDemo {
         ll.add(10);
         ll.add(20);
         ll.add(30);
+        ll.poll();
+        System.out.println(ll.size());
         System.out.println(ll.peek());
         System.out.println(ll.peek());
     }
