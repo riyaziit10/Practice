@@ -1,26 +1,54 @@
-package main.java.com.personal.String;
+package String;
 
 /**
- * Created by riyaz on 16/7/15.
+ * Created by riyaz on 5/7/15.
  */
 public class LongestPallindromisSubstring {
-    static int LPS(String str, int i, int j) {
-        if(i > j)
-            return 0;
-        if(i==j)
-            return 1;
-        if(str.charAt(i) == str.charAt(j))
-            return 2 + LPS(str, i + 1, j - 1);
-        else {
-            int x = LPS(str, i + 1, j);
-            int y = LPS(str, i , j - 1);
-            return Math.max(x, y);
-
+    static String findLargest(String str){
+        if(str == "" || str == null)
+            return null;
+        if(str.length() == 1)
+            return  str;
+        int length = str.length();
+        int max =0;
+        int count = 1;
+        int s = 0;
+        int e = 0;
+        for(int i = 1 ; i < length; ++i){
+            int left = i - 1;
+            int right = i + 1;
+            count = 1;
+            while(left>=0 && right < length && str.charAt(left) == str.charAt(right)){
+                count += 2;
+                --left;
+                ++right;
+            }
+            if(count > max) {
+                s = ++left;
+                e = --right;
+                max = count;
+            }
+            count = 0;
+            left = i;
+            right = i + 1;
+            while(left >= 0 && right < length && str.charAt(left) == str.charAt(right)){
+                count +=2;
+                --left;
+                ++right;
+            }
+            if(count > max) {
+                s = ++left;
+                e= --right;
+                max = count;
+            }
         }
+        System.out.println("Maximum size palindrome is \t" + max + "\t" + s + "\t" + e);
+        return str.substring(s, 1 + e);
     }
     public static void main(String[] args) {
-        String str = "dabea";
-        System.out.println("String length \t" + str.length());
-        System.out.println("LPS \t" +LPS(str, 0, str.length() - 1));
+//        String str = "abccbabacbcacba";
+        String str = "malayalam";
+        String result = findLargest(str);
+        System.out.println(result);
     }
 }

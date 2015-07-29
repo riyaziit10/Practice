@@ -33,7 +33,7 @@ public class KthLargestElementinMatrix {
 
             }
             ++i;
-            mat[0][0] =  - 1;
+            mat[0][0] =  Integer.MIN_VALUE;
         }
 
         show(mat);

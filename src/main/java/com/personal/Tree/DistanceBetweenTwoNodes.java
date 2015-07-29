@@ -48,6 +48,8 @@ public class DistanceBetweenTwoNodes {
 
         if(left != null && right != null)
             return root;
+        List list = new ArrayList<>();
+        list.
 
         return  left != null ? left : right;
     }

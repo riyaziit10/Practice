@@ -25,8 +25,8 @@ public class EqualSsumPartition {
             System.out.println("Not possible:Array is Empty");
             return;
         }
-        int sum=0;
-        for(int i=0; i<arrLength; ++i)
+        int sum = 0;
+        for(int i = 0; i < arrLength; ++i)
             sum+= arr[i];
         System.out.println("Total sum is \t" + sum);
         if(sum % 2 != 0){
@@ -42,11 +42,8 @@ public class EqualSsumPartition {
         int [][]memorization = new int[sum+1][length+1];
         for(int i = 1; i <= sum ; ++i) {
             for(int j = 1; j <=length; ++j) {
-                if(arr[j-1] == i)
-                    memorization[i][j] = i;
-                else if(arr[j-1] > i)
                     memorization[i][j] = memorization[i][j-1];
-                else
+                if(i >= arr[j-1])
                     memorization[i][j] = memorization[i-arr[j-1]][j-1] == i - arr[j-1] ? i : memorization[i][j-1];
             }
         }
@@ -65,8 +62,12 @@ public class EqualSsumPartition {
         return true;
     }
     public static void main(String[] args) {
-        int [] arr = {1,2,3,6,4,5,7};
-        equalSumPartition(arr);
-        partition(arr, 12);
+        int [] arr = {4,6,7,8};
+       // equalSumPartition(arr);
+//        for(int i = 0 ; i <= 12; ++i) {
+//            System.out.println("===========" + i + "===========");
+            if(!partition(arr, 18));
+//            System.out.println("false");
+//        }
     }
 }
