@@ -1,19 +1,16 @@
 package  main.java.com.personal.Random;
 
-import java.util.PriorityQueue;
 
 public class Test {
 
+    protected void finalize() {
+        System.out.println("RIP");
+    }
+
     public static void main(String[] args) throws Exception {
-        PriorityQueue minHeap = new PriorityQueue();
-        minHeap.add(10);
-        minHeap.add(20);
-        minHeap.add(30);
-        System.out.println(minHeap);
-        System.out.println(minHeap.poll());
-        System.out.println(minHeap);
 
-
+        Test  t = new Test();
+        System.out.println("========Tests=============");
     }
 }
 

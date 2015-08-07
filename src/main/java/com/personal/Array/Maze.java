@@ -1,78 +1,151 @@
-package Array;
+package main.java.com.personal.Array;
 
-/**
- * Created by riyaz on 4/7/15.
- */
-public class Maze {
-    static void makeRandomMaze(boolean[][] maze) {
-        int length = maze.length;
-        for (int i = 0; i < length; ++i) {
-            for (int j = 0; j < maze[i].length; ++j) {
-                maze[i][j] = (int) (Math.random() * 3) == 1;
-            }
+import java.util.LinkedList;
+
+class Maze {
+    static class Node {
+        int i;
+        int j;
+        int move;
+
+        public Node(int i, int j) {
+            this(i, j, 0);
         }
-        maze[0][0] = false;
-        maze[maze.length - 1][maze[0].length - 1] = false;
-        printMaze(maze);
-    }
 
-    static boolean isSafe(boolean[][] maze, int i, int j) {
-        return i >= 0 && j >= 0 && i < maze.length && j < maze.length && maze[i][j] == false;
-
+        public Node(int i, int j, int m) {
+            this.i = i;
+            this.j = j;
+            this.move = m;
+        }
     }
 
     static void printMaze(boolean[][] maze) {
-        int length = maze.length;
-        for (int i = 0; i < length; ++i) {
-            for (int j = 0; j < maze[i].length; ++j)
-                if (maze[i][j])
-                    System.out.print("#|");
-                else
-                    System.out.print("_|");
-
+        int m = maze.length;
+        int n = maze[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                System.out.print(maze[i][j] + "\t");
+            }
             System.out.println();
         }
     }
 
-    static class Points {
-        int i;
-        int j;
+    static boolean isSafe(boolean[][] maze, int x, int y) {
+        if (x >= maze.length || x < 0 || y >= maze[0].length || y < 0)
+            return false;
+        return maze[x][y];
+    }
 
-        public Points(int i, int j) {
-            this.i = i;
-            this.j = j;
+    static void printPath(boolean[][] maze) {
+        int m = maze.length;
+        int n = maze[0].length;
+        boolean[][] visited = new boolean[m][n];
+        Node[][] levelOrder = new Node[m][n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                levelOrder[i][j] = new Node(i, j, 0);
+            }
         }
-    }
-    static void show(Points [] pointse) {
-        System.out.println();
-        for(Points p :pointse) {
-            if(p != null)
-                System.out.print("(" + p.i + " , " + p.j + ")");
+        Node[] directions = {new Node(1, -1), new Node(0, -1), new Node(-1, -1), new Node(-1, 0), new Node(-1, -1), new Node(0, 1), new Node(1, 1), new Node(1, 0)};
+        LinkedList<Node> queue = new LinkedList<Node>();
+        queue.add(new Node(0, 0));
+        visited[0][0] = true;
+        Node temp = null;
+        boolean flag = false;
+        while (!queue.isEmpty()) {
+            temp = queue.poll();
+            if (temp.i == m - 1 && temp.j == n - 1) {
+                flag = true;
+                System.out.println("Path size is\t" + temp.move);
+            }
+
+            for (int i = 0; i < 8; ++i) {
+                int x = temp.i + directions[i].i;
+                int y = temp.j + directions[i].j;
+                if (isSafe(maze, x, y)) {
+                    if (!visited[x][y]) {
+                        visited[x][y] = true;
+                        queue.add(new Node(x, y, temp.move + 1));
+                        levelOrder[x][y].move = temp.move + 1;
+                    }
+                }
+            }
         }
-    }
-    static void findPaths(boolean[][] maze, int i, int j, boolean [] [] visited, Points [] p, int index) {
-        int length = maze.length;
-        if(i == length - 1 && j == length - 1) {
-            p[index] = new Points(i,j);
-            show(p);
+        if (flag == false) {
+            System.out.println("Path can not be found");
             return;
         }
-        if (isSafe(maze, i, j)) {
-            visited[i][j] = true;
-            p[index] = new Points(i,j);
-            findPaths(maze, i, j + 1, visited, p, index + 1);
-            findPaths(maze, i + 1, j, visited, p,  index + 1);
-            visited[i][j]= false;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                System.out.print(levelOrder[i][j].move + " ");
+            }
+            System.out.println();
         }
+
+        int i = m - 1;
+        int j = n - 1;
+        LinkedList<Node> path = new LinkedList<Node>();
+        path.add(new Node(i,j));
+        while(i != 0 || j != 0) {
+            for(int k = 0; k < 8 ; ++k){
+                int ii = i + directions[k].i;
+                int jj = j + directions[k].j;
+                if( ii >=0 && ii < m && jj >= 0 && jj < n){
+                    if(levelOrder[ii][jj].move == levelOrder[i][j].move - 1) {
+                        path.add(0,new Node(ii,jj));
+                        i = ii;
+                        j = jj;
+                        break;
+                    }
+                }
+            }
+        }
+        for(Node node : path) {
+            System.out.println("(" + node.i + "," + node.j + ")");
+        }
+
+    }
+
+    static void printMinimumpath(boolean[][] maze) {
+        int m = maze.length;
+        int n = maze[0].length;
+        boolean[][] visited = new boolean[m][n];
+        LinkedList<Node> queue = new LinkedList<Node>();
+        queue.add(new Node(0, 0));
+        Node[] directions = {new Node(1, -1), new Node(0, -1), new Node(-1, -1), new Node(-1, 0), new Node(-1, -1), new Node(0, 1), new Node(1, 1), new Node(1, 0)};
+        Node temp = null;
+        visited[0][0] = true;
+        while (!queue.isEmpty()) {
+            temp = queue.poll();
+//            System.out.println("(" + temp.i + "," + temp.j + "," + temp.move + ")");
+            if (temp.i == m - 1 && temp.j == n - 1) {
+                System.out.println(temp.move);
+                return;
+            }
+            for (int i = 0; i < 8; ++i) {
+                int x = temp.i + directions[i].i;
+                int y = temp.j + directions[i].j;
+                if (isSafe(maze, x, y)) {
+                    if (!visited[x][y]) {
+                        visited[x][y] = true;
+                        queue.add(new Node(x, y, temp.move + 1));
+                    }
+                }
+            }
+        }
+        System.out.println("Not possible");
+
     }
 
     public static void main(String[] args) {
-        int m = 4, n = 4;
-        boolean[][] maze = new boolean[m][n];
-        makeRandomMaze(maze);
-        boolean [][] visited = new boolean[m][n];
-//        printMaze(visited);
-        Points [] pointse = new Points[m+n];
-        findPaths(maze,0,0,visited, pointse, 0);
+        boolean[][] maze = {
+                {true, true, true, true},
+                {true, true, false, true},
+                {true, false, false, false},
+                {true, true, true, true}};
+
+        printMaze(maze);
+//        printMinimumpath(maze);
+        printPath(maze);
     }
 }
