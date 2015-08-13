@@ -1,16 +1,32 @@
 package  main.java.com.personal.Random;
 
 
-public class Test {
+import java.util.ArrayList;
+import java.util.List;
 
-    protected void finalize() {
-        System.out.println("RIP");
+public class Test {
+    private static void divideStringNEqualParts(String str, int k) {
+        if(str == null)
+            return;
+        int length = str.length();
+
+        if(length % k != 0) {
+            return;
+        }
+        int size =length / k;
+        System.out.println(size + "\t" + length);
+        int i  = 0;
+        List<String> list = new ArrayList<String>();
+        while(i < length) {
+            list.add(str.substring(i, i + size));
+            i = i + size;
+        }
+        System.out.println(list);
     }
 
     public static void main(String[] args) throws Exception {
-
-        Test  t = new Test();
-        System.out.println("========Tests=============");
+            String str = "a_simple_divide_string_quest";
+        divideStringNEqualParts(str, 4);
     }
 }
 
