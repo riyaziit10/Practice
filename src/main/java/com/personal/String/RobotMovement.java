@@ -36,7 +36,6 @@ public class RobotMovement {
                     case 'w':
                     case 'W':
                         --x;
-//                        break;
                 }
             } else if (path.charAt(i) == 'L') {
                 switch (direction) {

@@ -5,7 +5,7 @@ package main.java.com.personal.String;
  */
 public class URLshortener {
     public static void main(String[] args) {
-        int n = 12345;
+        int n = 123456;
         String shorturl = idToShortURL(n);
         System.out.println("Generated short url is \t"  + shorturl );
         System.out.println("original id was \t" + shortURLtoID(shorturl));
@@ -21,9 +21,9 @@ public class URLshortener {
             char ch = shorturl.charAt(i);
             if(ch >= 'a' && ch <= 'z')
                 result += (ch - 'a') * Math.pow(62, i);
-            else if(ch >= 'A' && ch >= 'Z')
-                result +=  (ch - 'A') + 26 * Math.pow(62, i);
-            else result += (ch - '0') + 52 * Math.pow(62.0,i);
+            else if(ch >= 'A' && ch <= 'Z')
+                result +=  (ch - 'A' + 26)  * Math.pow(62, i);
+            else result += (ch - '0' + 52)  * Math.pow(62, i);
             ++i;
         }
         return result;
