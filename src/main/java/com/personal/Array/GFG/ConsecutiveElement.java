@@ -27,16 +27,22 @@ public class ConsecutiveElement {
     }
 
     public static void main(String[] args) {
-        int arr1[] = {1, 4, 5, 3, 2, 6};
-        System.out.println(isConsecutive(arr1));
-        int arr2[] = {2, 1, 0, -3, -1, -2};
-        System.out.println(isConsecutive(arr2));
-        int arr3[] = {83, 78, 80, 81, 79, 82};
-        System.out.println(isConsecutive(arr3));
-        int arr4[] = {34, 23, 52, 12, 3 };
-        System.out.println(isConsecutive(arr4));
-        int arr5[] = {7, 6, 5, 5, 3, 4};
-        System.out.println(isConsecutive(arr5));
+//        int arr1[] = {1, 4, 5, 3, 2, 6};
+//        System.out.println(isConsecutive(arr1));
+//        int arr2[] = {2, 1, 0, -3, -1, -2};
+//        System.out.println(isConsecutive(arr2));
+//        int arr3[] = {83, 78, 80, 81, 79, 82};
+//        System.out.println(isConsecutive(arr3));
+//        int arr4[] = {34, 23, 52, 12, 3 };
+//        System.out.println(isConsecutive(arr4));
+//        int arr5[] = {7, 6, 5, 5, 3, 4};
+//        System.out.println(isConsecutive(arr5));
+
+        int arr6[] = {3,4,5,5,6};
+        System.out.println(isConsecutive(arr6));
+
+        int arr7[] = {1, 2, 1, 6, 5, 6};
+        System.out.println(isConsecutive(arr7));
 
     }
 }
