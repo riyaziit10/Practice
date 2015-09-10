@@ -417,6 +417,114 @@ public class MasterTreeFile {
         int ceil = getCeil(root.left, k);
         return (ceil >= k ? ceil : root.data);
     }
+
+    public static Node pruneTree(Node root, int k) {
+        if(root == null )
+            return null;
+        if( k < 0)
+            return root;
+        root.left = pruneTree(root.left, k - root.data);
+        root.right = pruneTree(root.right, k - root.data);
+
+        if(root.left == null && root.right == null && k - root.data > 0)
+            return null;
+
+        return root;
+    }
+
+
+    public static Node deleteOutsideGivenRange(Node root, int min , int max) {
+        if(root == null)
+            return null;
+
+        root.left = deleteOutsideGivenRange(root.left, min, max);
+        root.right = deleteOutsideGivenRange(root.right, min, max);
+
+        if(root.data < min || root.data > max) {
+            if(root.left == null && root.right == null)
+                return  null;
+            else
+                return root.left != null ? root.left : root.right;
+        }
+        return root;
+    }
+
+    public static void digonalSum(Node root, int level, Map<Integer, Integer> sum) {
+        if(root == null)
+            return;
+        if(!sum.containsKey(level)) {
+            sum.put(level, root.data);
+        } else {
+            sum.put(level, sum.get(level) + root.data);
+        }
+
+        digonalSum(root.left, level + 1, sum);
+        digonalSum(root.right, level, sum);
+    }
+
+
+    private static int getMaximumPathSumBetweenLEaves(Node root, int res[]) {
+        if(root == null)
+            return 0;
+        if(root.left == null  && root.right == null)
+            return root.data;
+        int leftSum = 0 ;
+        int rightSum = 0 ;
+        leftSum = getMaximumPathSumBetweenLEaves(root.left, res);
+        rightSum = getMaximumPathSumBetweenLEaves(root.right, res);
+
+        int current_sum = leftSum + rightSum + root.data;
+        if(current_sum > res[0])
+            res[0] = current_sum;
+
+        if(root.left == null || root.right == null) {
+            return root.left == null ? rightSum + root.data : leftSum + root.data;
+        } else {
+            return Math.max(leftSum, rightSum) + root.data;
+        }
+    }
+
+    private static Node removeHalfNodes(Node root) {
+        if (root == null)
+            return null;
+        if(root.left == null && root.right == null)
+            return root;
+        root.left = removeHalfNodes(root.left);
+        root.right = removeHalfNodes(root.right);
+        if(root.left == null || root.right == null)
+            return root.left == null ? root.right : root.left;
+        return root;
+    }
+    private static class TopViewNode {
+        Node node;
+        int level;
+
+        public TopViewNode(Node node, int level) {
+            this.node = node;
+            this.level = level;
+        }
+    }
+
+
+    public static void printTopView(Node root, int level, Map<Integer, Integer> result) {
+        if(root==null)
+            return;
+        Queue<TopViewNode> queue = new LinkedList<TopViewNode>();
+        queue.add(new TopViewNode(root, 0));
+        while(!queue.isEmpty()) {
+            TopViewNode temp = queue.poll();
+            if(!result.containsKey(temp.level)) {
+                result.put(temp.level, temp.node.data);
+            }
+
+            if(temp.node.left != null) {
+                queue.add(new TopViewNode(temp.node.left, temp.level - 1));
+            }
+            if(temp.node.right != null) {
+                queue.add(new TopViewNode(temp.node.right, temp.level + 1));
+            }
+        }
+    }
     public static void main(String[] args) {
 //        Node a = new Node(26);    //        20
 //        Node b = new Node(10);     //    8        22
@@ -576,15 +684,125 @@ public class MasterTreeFile {
         a31.right.left = new Node(10);
         a31.right.right = new Node(14);
 
-        inorderTraversal(a31);
+//        inorderTraversal(a31);
 
-        System.out.println();
-        for(int i = 0; i < 20; ++i) {
-//        int i = 3;
+//        System.out.println();
+//        for(int i = 0; i < 20; ++i) {
+////        int i = 3;
+//
+//                System.out.println( i + "\t floor\t" +  getFloor(a31,i));
+////                System.out.println( i + "\t Ceil\t" +  getCeil(a31,i));
+//        }
 
-                System.out.println( i + "\t floor\t" +  getFloor(a31,i));
-//                System.out.println( i + "\t Ceil\t" +  getCeil(a31,i));
-        }
+        Node b1 = new Node (1);
+        Node b2 = new Node (2);
+        Node b3 = new Node (3);
+        b1 .left = b2;
+        b1.right = b3;
+        Node b4 = new Node (4);
+        Node b5 = new Node (5);
+        b2.left = b4;
+        b2.right = b5;
+        Node b6 = new Node (6);
+        Node b7 = new Node (7);
+        b3.left = b6;
+        b3.right = b7;
+        Node b8 = new Node (8);
+        Node b9 = new Node (9);
+        b4.left = b8;
+        b4.right = b9;
+        Node b10 = new Node (10);
+        Node b11 = new Node (11);
+        Node b12 = new Node (12);
+        b5.left = b12;
+        Node b13 = new Node (13);
+        b7.left = b10;
+        b10.right = b11;
+        b9.left = b13;
+        Node b14 = new Node (14);
+        b9.right = b14;
+        Node b15 = new Node (15);
+        b14.left = b15;
+////        inorderTraversal(pruneTree(b1, 45));
+//
+//        inorderTraversal(deleteOutsideGivenRange(b1, 4, 15));
+
+
+        Node c1 = new Node (1);
+        Node c2 = new Node (2);
+        Node c3 = new Node (3);
+        c1.left = c2;
+        c1.right = c3;
+        Node c4 = new Node (9);
+        Node c5 = new Node (6);
+        c2.left = c4;
+        c2.right = c5;
+        Node c6 = new Node (4);
+        Node c7 = new Node (5);
+        c3.left = c6;
+        c3.right = c7;
+        Node c8 = new Node (10);
+        c4.right = c8;
+        Node c9 = new Node (11);
+        c5.left = c9;
+        Node c10 = new Node (12);
+        Node c11 = new Node (7);
+        c6.left = c10;
+        c6.right = c11;
+//        inorderTraversal(c1);
+//
+//        Map<Integer, Integer> sum = new HashMap<Integer, Integer>();
+//        digonalSum(c1, 0, sum);
+//        System.out.println(sum.values());
+
+
+        Node root = new Node(-15);
+        root.left = new Node(5);
+        root.right = new Node(6);
+        root.left.left = new Node(-8);
+        root.left.right = new Node(1);
+        root.left.left.left = new Node(2);
+        root.left.left.right = new Node(6);
+        root.right.left = new Node(3);
+        root.right.right = new Node(9);
+        root.right.right.right= new Node(0);
+        root.right.right.right.left= new Node(4);
+        root.right.right.right.right= new Node(-1);
+        root.right.right.right.right.left= new Node(10);
+//        int result[] = new int[1];
+//        getMaximumPathSumBetweenLEaves(root, result);
+//        System.out.println("Max pathSum of the given binary tree is " + result[0]);
+
+        Node root1 = new Node(2);
+        root1.left = new Node(7);
+        root1.right = new Node(5);
+        root1.left.right = new Node(6);
+        root1.left.right.left=new Node(1);
+        root1.left.right.right=new Node(11);
+        root1.right.right=new Node(9);
+        root1.right.right.left=new Node(4);
+
+//        inorderTraversal(root1);
+//
+//        System.out.println("\nafter removal of half nodes");
+//        inorderTraversal(removeHalfNodes(root1));
+
+        Node  root3 = new Node(1);
+        root3.left = new Node(2);
+        root3.right = new Node(3);
+        root3.left.right = new Node(4);
+        root3.left.right.right = new Node(5);
+        root3.left.right.right.right = new Node(6);
+        inorderTraversal(root3);
+
+        Map<Integer, Integer> result = new HashMap<Integer, Integer>();
+        printTopView(root3, 0, result);
+        System.out.println(result.values());
+
+
+
+
+
 
     }
 }
