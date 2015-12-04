@@ -39,6 +39,7 @@ public class EnumSetDemo {
     }
     public static void main(String[] args) {
         EnumSet<Color> yellow = EnumSet.of(Color.RED, Color.GREEN, Color.GREEN);
+
         drawLine(yellow);
         EnumSet<Color> white = EnumSet.of(Color.RED,Color.BLUE,Color.BLUE);
         drawLine(white);
